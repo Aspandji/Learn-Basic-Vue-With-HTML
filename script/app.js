@@ -1,0 +1,76 @@
+const app = Vue.createApp({
+    data() {
+        return {
+            state: true,
+            inputName: '',
+            names: [],
+            error: '',
+            showError: false,
+            result: ''
+        }
+    },
+    computed: {
+        isReady() {
+            return this.names.length >= 3
+        }
+    },
+    methods: {
+        addName() {
+            const userName = this.inputName;
+            if (this.validate(userName)) {
+                this.names.push(userName)
+                this.inputName = '';
+                this.showError = false;
+            } else {
+                this.showError = true
+            }
+        },
+        validate(value) {
+            this.error = '';
+
+            if (value === '') { // jika value input kosong
+                this.error = "Name Can't Empty"
+                return false
+            }
+
+            if (this.names.includes(value)) { // jika value input duplicate
+                this.error = "Duplicate Name !"
+                return false
+            }
+
+            return true
+        },
+        hapusName(index) {
+            this.names.splice(index, 1)
+        },
+        showResult() {
+            this.generateResult()
+            this.state = false
+        },
+        getRandomName() {
+            return this.names[Math.floor(Math.random() * this.names.length)]
+        },
+        generateResult() {
+            let randName = this.getRandomName()
+            // Menghindari double pemenang saat ganti pemenang
+            if (this.result !== '') {
+                while (randName === this.result) {
+                    randName = this.getRandomName()
+                }
+            }
+
+            this.result = randName
+        },
+        resetApp() {
+            this.state = true;
+            this.inputName = '';
+            this.names = [];
+            this.error = '';
+            this.showError = false;
+            this.result = ''
+        },
+        getNewResult() {
+            this.generateResult();
+        }
+    }
+}).mount('#app')

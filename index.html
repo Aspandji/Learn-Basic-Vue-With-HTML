@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Learn Basic Vue JS</title>
+</head>
+
+<body>
+    <div id="app">
+        <div id="names" class="container" v-if="state">
+            <div class="logo">
+                <h1>Get Doorprize Now</h1>
+            </div>
+            <div class="input_container">
+                <input type="text" placeholder="Input Peserta" v-model.trim.lazy="inputName" />
+                <button @click="addName">Add</button>
+            </div>
+
+            <div class="error_label animate__animated animate__bounceIn" v-if="showError"> {{ error }} </div>
+
+            <div class="list_of_names">
+                <div class="animate__animated animate__fadeInDown" v-for="(name, index) in names" :key="index"
+                    @click="hapusName(index)">
+                    {{ name }}
+                </div>
+            </div>
+
+            <div v-if="isReady" class="animate__animated animate__backInDown">
+                <div class="action_button" @click="showResult">
+                    Spin Now !
+                </div>
+            </div>
+        </div>
+
+        <div id="result" class="container" v-if=!state>
+            <div class="result_container">
+                <h1>Pemenang Undian</h1>
+                <div class="result_value">
+                    {{ result }}
+                </div>
+
+                <div class="action_button" @click="resetApp">
+                    Mulai Lagi !
+                </div>
+
+                <div class="action_button btn2" @click="getNewResult">
+                    Ganti Pemenang Undian !
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="script/app.js"></script>
+
+</html>
